@@ -53,3 +53,13 @@ dkms.conf
 
 # debug information files
 *.dwo
+
+# data files
+data/*
+data/*.dat
+data/*.txt
+!data/.gitkeep
+
+# extras
+build/
+bin/
