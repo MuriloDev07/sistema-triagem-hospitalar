@@ -1,0 +1,26 @@
+name: CI - Build e Validação C
+
+on:
+    push:
+        branches: [ main ]
+    pull_request:
+        branches: [ main ]
+
+jobs:
+    build-e-check:
+        runs-on: ubuntu-latest
+    
+        steps:
+            - name: Baixar código do repositório
+              uses: actions/checkout@v4
+            
+            - name: Instalar compilar e Valgrind
+              run: |
+                sudo apt-get update
+                sudo apt-get install -y gcc make valgrind
+
+            - name: Compilar o projeto (com avisos rigorosos)
+              run: make
+
+            - name: Verificar vazamento de memória (smoke test)
+              run: valgrind --error-exitcode=1 --leak-check=full ./bin/triagem < /dev/null
